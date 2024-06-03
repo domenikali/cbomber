@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Wextra 
+CFLAGS = -Wall -Wextra -std=c++20
 
 EXEC = server client
 

@@ -16,7 +16,6 @@
 #include <type_traits>
 
 
-using namespace std;
 
 int main (int args, char ** argv){
   int port = 8080;
@@ -31,7 +30,7 @@ int main (int args, char ** argv){
     memset(buf, 0, sizeof(char)*4096);
     
     int byte = recv(sock_client, buf, 4096, 0);
-    print(INFO, "Recived: "+to_string(byte)+"bits\tmessage: "+string(buf));
+    print(INFO, "Recived: "+std::to_string(byte)+"bits\tmessage: "+string(buf));
     close(sock_client);
   }
  

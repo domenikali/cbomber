@@ -1,14 +1,21 @@
 #ifndef CLIENT_CONNECTION_H
 #define CLIENT_CONNECTION_H
 
+#include "packets.hpp"
 #include "utils.hpp"
 #include <cstring>
 
 #include <iostream>
-using namespace std;
 #include <arpa/inet.h>
 
-sockaddr_in connect_to_server(int port, string adress, int * tcp_server_sock);
+/**
+ *  @brief create a fd for a client socket
+ *  @param port port number 
+ *  @param adress the adress of the server
+ *  @param tcp_server_sock pointer server socket fd that get created
+ *  @return the sockaddr_in structure of the server
+ */
+sockaddr_in connect_to_server(const int port, const string adress, int * tcp_server_sock);
 
 
 

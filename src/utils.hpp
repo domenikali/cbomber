@@ -2,8 +2,7 @@
 #define UTILS_H
 
 #include <iostream>
-using namespace std;
-
+using std::string, std::cout, std::endl;
 #define DEBUG true
 
 enum log_level {
@@ -17,6 +16,11 @@ enum log_level {
 #define INFO_COLOR "\033[36m" //cyan
 #define RESET "\033[0m"
 
-void print(log_level level, string message);
+/**
+ *  @brief print a message with a color
+ *  @param level the log level
+ *  @param message the message to print
+ */
+void print(const log_level level, const string message);
 
 #endif

@@ -1,6 +1,6 @@
 #include "server_connection.hpp"
 
-int create_server_socket(int port){
+int create_server_socket(const int port){
 
   //init socket
   int tcp_server_sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -34,7 +34,7 @@ int create_server_socket(int port){
   return tcp_server_sock;
 }
 
-sockaddr_in accept_client(int tcp_server_sock, int *sock_client){
+sockaddr_in accept_client(const int tcp_server_sock, int *sock_client){
   sockaddr_in client_addr;
   socklen_t client_addr_size = sizeof(client_addr); 
   

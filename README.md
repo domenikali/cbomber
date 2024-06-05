@@ -29,16 +29,13 @@ code is first 13 bit
 id is the following 2
 team is the remaining 1
 
-
+<pre>
                     1
-                    
 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
-
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
 |        code           |id |t|
-
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
 
 code is:
   - status

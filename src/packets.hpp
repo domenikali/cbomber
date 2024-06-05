@@ -1,8 +1,10 @@
 #ifndef PACKETS_H
 #define PACKETS_H
 
+#include "domes_library.hpp"
 #include <iostream>
-#include <string>
+#include <cstring>
+#include <sys/socket.h>
 
 using std::string;
 
@@ -17,10 +19,12 @@ class Header{
 
   public:
     Header(uint16_t code, uint8_t id, uint8_t team);
+    Header(const char * serialized_header);
     uint16_t get_header(){ return head;};
     uint16_t get_code();
     uint8_t get_id();
     uint8_t get_team();
+
     /**
      * @brief decode the header into separet variables passed by reference
      * @param code the code of the packet
@@ -30,7 +34,30 @@ class Header{
     void decode(uint16_t * code, uint8_t * id, uint8_t * team);
     void set_code(uint16_t code);
     void set_id(uint8_t id);
+    
     void set_team(uint8_t team);
+    /**
+     * @brief check if the header sent is ok
+     * @return true if the header is ok, false otherwise
+    */
+    bool is_valid();
+
+    char * serialize(ssize_t * packet_size);
+    /**
+     * @brief send the header to a socket (could be tcp or udp)
+     * @param sock_fd the socket file descriptor
+     * @return the 0 if the header was sent successfully, -1 otherwise
+    */
+    int send_header(const int sock_fd);
+
+    /**
+     * @brief receive the header from a socket (could be tcp or udp)
+     * @details recived the serialized header, deserialize it and set the header
+     * @param sock_fd the socket file descriptor
+     * @return the 0 if the header was received successfully, -1 otherwise
+    */
+    int recv_header(const int sock_fd);
+
     string to_string();
 };
 

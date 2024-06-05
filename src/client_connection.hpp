@@ -1,6 +1,7 @@
 #ifndef CLIENT_CONNECTION_H
 #define CLIENT_CONNECTION_H
 
+#include "domes_library.hpp"
 #include "packets.hpp"
 #include "utils.hpp"
 #include <cstring>

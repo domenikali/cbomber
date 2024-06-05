@@ -1,7 +1,7 @@
 #ifndef SERVER_CONNECTION_H
 #define SERVER_CONNECTION_H
 
-#include "utils.hpp"
+#include "domes_library.hpp"
 #include "packets.hpp"
 #include <iostream>
 

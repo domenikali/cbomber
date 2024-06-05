@@ -1,3 +1,4 @@
+#include "packets.hpp"
 #include "server_connection.hpp"
 #include "utils.hpp"
 
@@ -26,11 +27,8 @@ int main (int args, char ** argv){
     int sock_client ;
     accept_client(tcp_server_sock, &sock_client);
 
-    char buf[4096];
-    memset(buf, 0, sizeof(char)*4096);
-    
-    int byte = recv(sock_client, buf, 4096, 0);
-    print(INFO, "Recived: "+std::to_string(byte)+"bits\tmessage: "+string(buf));
+    Header header(0,0,0);
+    header.recv_header(sock_client);
     close(sock_client);
   }
  

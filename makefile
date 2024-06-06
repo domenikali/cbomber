@@ -3,8 +3,8 @@ CFLAGS = -Wall -Wextra -std=c++20
 
 EXEC = server client
 
-SOBJS = ./src/server.o ./src/server_connection.o  ./src/utils.o ./src/packets.o ./src/domes_library.o
-COBJS = ./src/client.o ./src/client_connection.o ./src/utils.o ./src/packets.o ./src/domes_library.o
+SOBJS = ./src/server.o ./src/server_connection.o  ./src/utils.o ./src/header.o ./src/match_info.o ./src/domes_library.o
+COBJS = ./src/client.o ./src/client_connection.o ./src/utils.o ./src/header.o ./src/match_info.o ./src/domes_library.o
 
 all: $(EXEC)
 

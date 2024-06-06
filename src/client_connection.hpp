@@ -2,7 +2,7 @@
 #define CLIENT_CONNECTION_H
 
 #include "domes_library.hpp"
-#include "packets.hpp"
+#include "header.hpp"
 #include "utils.hpp"
 #include <cstring>
 

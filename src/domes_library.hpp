@@ -23,5 +23,7 @@ enum log_level {
  */
 void print(const log_level level, const std::string message);
 
+void * my_malloc(const size_t bytes);
+
 
 #endif

@@ -20,6 +20,14 @@ uint8_t Header::get_id(){
 uint8_t Header::get_team(){
     return head & 0b1;
 }
+bool Header::is_valid(){
+  if(get_code() == 0){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 
 void Header::decode(uint16_t * code, uint8_t * id, uint8_t * team){
     *code = get_code();
@@ -69,7 +77,7 @@ int Header::send_header(const int sock_fd){
   return 0;
 }
 
-int Header::recv_header(const int sock_fd){
+Header Header::recv_header(const int sock_fd){
   char buf[2];
   memset(buf, 0, sizeof(char)*2);
   ssize_t byte_recved = 0;
@@ -78,14 +86,25 @@ int Header::recv_header(const int sock_fd){
     byte_recved = recv(sock_fd, buf+byte_recved, 2-byte_recved, 0);
     if(byte_recved == -1){
       print(ERROR, "Error reciving packet");
-      return -1;
+      return Header::error_header();
     }
     total+=byte_recved;
   }
-  memcpy(&head, buf, 2);
-  print(INFO, "Recived header: " + to_string());
-  return 0;
+  Header header = Header(buf);
+
+  print(INFO, "Recived header: " + header.to_string());
+  return header;
 }
+
+Header Header::error_header(){
+  return Header(1,0,0);
+}
+
+Header Header::success_header(){
+  return Header(0,0,0);
+}
+
+
 
 string Header::to_string(){
     return "Header:\n\tcode: " + std::to_string(get_code()) + " id: " + std::to_string(get_id()) + " team: " + std::to_string(get_team());

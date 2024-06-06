@@ -8,6 +8,7 @@
 
 using std::string;
 
+
 /**
  *  @brief class to handle the header of the packets
  *  @details the header is a 16 bit number that contains the code of the packet, the id of the client and the team of the client
@@ -56,10 +57,15 @@ class Header{
      * @param sock_fd the socket file descriptor
      * @return the 0 if the header was received successfully, -1 otherwise
     */
-    int recv_header(const int sock_fd);
+    static Header recv_header(const int sock_fd);
+
+    static Header error_header();
+
+    static Header success_header();
 
     string to_string();
-};
+  };
+ 
 
 
 #endif

@@ -15,6 +15,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <type_traits>
+#include <thread>
 
 
 
@@ -24,12 +25,12 @@ int main (int args, char ** argv){
   int tcp_server_sock = create_server_socket(port);
 
   while(true){
-    int sock_client ;
+    int sock_client;
     accept_client(tcp_server_sock, &sock_client);
 
-    Header header(0,0,0);
-    header.recv_header(sock_client);
-    close(sock_client);
+    std::thread t(queue_client, sock_client);
+    t.detach();
+
   }
  
   

@@ -4,10 +4,10 @@
 #include "packets.hpp"
 #include <iostream>
 
-using std::string, std::cout, std::endl;
+extern const Header Header_Ok;
+extern const Header Header_Err;
+#define LOBBY_SIZE 4
 
-const Header Header_Ok = Header(0,0,0);
-const Header Header_Err = Header(1,0,0);
 
 
 

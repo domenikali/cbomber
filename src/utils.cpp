@@ -1,11 +1,8 @@
 #include "utils.hpp"
 
-bool check_header(Header header) {
-  if (header.get_code() == 0) {
-    return true;
-  } else {
-    return false;
-  }
-}
+const Header Header_Ok = Header(0,0,0);
+const Header Header_Err = Header(1,0,0);
+
+
 
 

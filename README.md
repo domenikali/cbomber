@@ -4,20 +4,20 @@ this is a little project to learn c++ coming from c
 ## protocol
 the game protocol is the following (still not complete)
 
-### 1
-client connect to server and send packet with a request to join the queue in a specifig gmae mode
+### - 1
+&emsp;client connect to server and send packet with a request to join the queue in a specifig game mode
 
-### 2
-server respond with a packet to confirm request accepted or denied
+### - 2
+&emsp;server add player in the queue of the requested mode then respond with a packet to confirm request accepted or denied
 
-### 3
-server send game info to client
+### - 3
+&emsp;once the queue is full the server send game info to client
 
-### 4 
-client respond to confirm it has recived the information and it's still running
+### - 4 
+&emsp;client respond to confirm it has recived the information and it's still running
 
-### 5 
-server multidiffuse grid information and the game can start
+### - 5 
+&emsp;server multidiffuse grid information and the game can start
 
 (continue)
 
@@ -25,15 +25,36 @@ server multidiffuse grid information and the game can start
 
 ### Header
 16 bits packet
-code is first 13 bit
+code is first 13 bit [0:8191]
 id is the following 2
 team is the remaining 1
 
 <pre>
-                    1
+0                   1
 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |        code           |id |t|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+
+### Match info
+16 bit header 
+&emsp; - code = 0, id = of the player, team = of the player (all 0 if free4all)
+16 bit udp port
+16 bit multicast port
+16 X 8 bit ipv6 multicast adress
+
+<pre>
+0                   1
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|            code       |id |t|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          udp port           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|       multicast port        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     ip[0]   |     ....
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </pre>
 

@@ -1,5 +1,11 @@
 #include "server_connection.hpp"
 
+std::stack<int> solo_queue;
+std::stack<int> team_queue;
+
+std::mutex solo_queue_mutex;
+std::mutex team_queue_mutex;
+
 int create_server_socket(const int port){
 
   //init socket
@@ -45,5 +51,69 @@ sockaddr_in accept_client(const int tcp_server_sock, int *sock_client){
 
   print(INFO,"A connection is accepted now.");
   return client_addr;
+}
+
+void queue_client(const int client_sock){
+  int mode = Header::recv_header(client_sock).get_code();
+  
+  switch(mode){
+    case 2://single player
+      solo_queue_mutex.lock();
+      solo_queue.push(client_sock);
+      if(solo_queue.size()>=4){
+        std::thread t(lobby, mode);
+        t.detach();
+      }
+      solo_queue_mutex.unlock();
+      break;
+
+    case 3://teams
+      team_queue_mutex.lock();
+      team_queue.push(client_sock);
+      if(team_queue.size()>=4){
+        std::thread t(lobby, mode);
+        t.detach();
+      }
+      team_queue_mutex.unlock();
+      break;
+
+    default:
+      print(ERROR,"Invalid header received");
+      Header::error_header().send_header(client_sock);
+      return;
+      break;
+  }
+
+  Header header_ok = Header(0,0,0);
+  header_ok.send_header(client_sock);
+  
+}
+
+void lobby(const int mode){
+  
+  switch (mode)
+  {
+  case 2:
+    solo_queue_mutex.lock();
+    for (int i =0;i<LOBBY_SIZE;i++){
+      Header::success_header().send_header(solo_queue.top());
+      solo_queue.pop();
+    }
+    solo_queue_mutex.unlock();
+    break;
+  case 3:
+    team_queue_mutex.lock();
+    for (int i =0;i<LOBBY_SIZE;i++){
+      Header::success_header().send_header(team_queue.top());
+      team_queue.pop();
+    }
+    team_queue_mutex.unlock();
+    break;
+  
+  default:
+    print(ERROR,"Invalid mode");
+    exit(EXIT_FAILURE);
+    break;
+  }
 }
 

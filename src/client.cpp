@@ -22,16 +22,16 @@ int main (int args, char ** argv){
   int game_mode = -1;
   while(game_mode==-1){
     string mode;
-    cout << "Choose game mode: " << endl;
-    cout << "1. Single player" << endl;
-    cout << "2. Multiplayer" << endl;
+    std::cout << "Choose game mode: \n" ;
+    std::cout << "\t1. Single player\n";
+    std::cout << "\t2. Multiplayer" << std::endl;
     std::getline(std::cin, mode);
     if(mode == "1"){
       game_mode = 2;
     } else if(mode == "2"){
       game_mode = 3;
     } else {
-      cout << "Invalid input" << endl;
+      std::cout << "Invalid input" << std::endl;
     }
   }    
 
@@ -41,6 +41,12 @@ int main (int args, char ** argv){
   connect_to_server(port, adress , &tcp_server_socket);
 
   require_match.send_header(tcp_server_socket);
+
+  Header response = Header::recv_header(tcp_server_socket);
+  print(INFO, "added to queue");
+
+  Header id_packet = Header::recv_header(tcp_server_socket);
+  print(INFO, "match starting");
 
   close(tcp_server_socket);
 

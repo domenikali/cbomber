@@ -16,3 +16,13 @@ void print(log_level level, std::string message) {
     std::cout << RESET << std::endl;
   }
 }
+
+void* my_malloc(const size_t bytes){       
+    void * tmp = malloc(bytes);
+    if(tmp == NULL){
+        perror("MALLOC FAILED");
+        exit(EXIT_FAILURE);
+    }
+    return tmp; 
+} 
+

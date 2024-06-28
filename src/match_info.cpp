@@ -20,7 +20,7 @@ Match_info::Match_info(const char * serialized_match_info){
 
 char * Match_info::get_mcast_addr_str(){
   char * addr = new char[INET6_ADDRSTRLEN];
-  inet_ntop(AF_INET6, mcast_addr, addr, 16);
+  inet_ntop(AF_INET6, this->mcast_addr, addr, INET6_ADDRSTRLEN);
   return addr;
 }
 
@@ -76,5 +76,5 @@ Match_info Match_info::recv_match_info(const int sock_fd){
 }
 
 std::string Match_info::to_string(){
-  return header.to_string() + " port udp: " + std::to_string(ntohs(udp_port)) + " port mcast: " + std::to_string(ntohs(mcast_port)) + " ip mcast: " + std::string(get_mcast_addr_str());
+  return header.to_string() + "\n\t port udp: " + std::to_string(ntohs(udp_port)) + " port mcast: " + std::to_string(ntohs(mcast_port)) + " ip mcast: " + get_mcast_addr_str();
 }

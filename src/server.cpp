@@ -23,6 +23,7 @@ int main (int args, char ** argv){
   int port = 8080;
 
   int tcp_server_sock = create_server_socket(port);
+  
 
   while(true){
     int sock_client;

@@ -3,6 +3,7 @@
 
 #include "header.hpp"
 #include "utils.hpp"
+#include "match_info.hpp"
 #include "domes_library.hpp"
 #include <iostream>
 
@@ -12,6 +13,13 @@
 #include <mutex>
 #include <stack>
 #include <thread>   
+
+typedef struct{
+  int tcp_socket;
+  int id;
+}Player;
+
+
 
 /**
  *  @brief create a fd for a server socket
@@ -32,4 +40,12 @@ void queue_client(const int client_sock);
 
 void lobby(const int mode);
 
+Match_info init_match();
+
+/**
+ * @brief create a new mcast adress
+ * @details create a new ipv6 adress randomly ad exception of the first 16 bit describing the multicast adress
+ * @return the adress
+ */
+char * new_mdiff_adress();
 #endif

@@ -6,6 +6,12 @@ std::stack<int> team_queue;
 std::mutex solo_queue_mutex;
 std::mutex team_queue_mutex;
 
+int base_udp_port = 8080;
+int base_mcast_port = 9080;
+
+std::mutex base_udp_port_mutex;
+std::mutex base_mcast_port_mutex;
+
 int create_server_socket(const int port){
 
   //init socket
@@ -90,30 +96,76 @@ void queue_client(const int client_sock){
 }
 
 void lobby(const int mode){
-  
-  switch (mode)
-  {
-  case 2:
-    solo_queue_mutex.lock();
-    for (int i =0;i<LOBBY_SIZE;i++){
-      Header::success_header().send_header(solo_queue.top());
-      solo_queue.pop();
+
+  Match_info match = init_match();
+  Header header(0,0,0);
+
+  Player player[LOBBY_SIZE];
+  int player_count=0;
+  while(player_count<LOBBY_SIZE){
+    switch (mode){
+      case 2:
+        solo_queue_mutex.lock();
+        player[player_count].tcp_socket=solo_queue.top();
+        player[player_count].id = player_count;
+        solo_queue.pop();
+        solo_queue_mutex.unlock();
+
+        header.set_id(player_count); 
+        match.set_header(header);
+        match.send_match_info(player[player_count].tcp_socket);
+        player_count++;
+        break;
+      case 3:
+        team_queue_mutex.lock();
+        
+        team_queue_mutex.unlock();
+        break;
+      
+      default:
+        print(ERROR,"Invalid mode");
+        exit(EXIT_FAILURE);
+        break;
     }
-    solo_queue_mutex.unlock();
-    break;
-  case 3:
-    team_queue_mutex.lock();
-    for (int i =0;i<LOBBY_SIZE;i++){
-      Header::success_header().send_header(team_queue.top());
-      team_queue.pop();
-    }
-    team_queue_mutex.unlock();
-    break;
-  
-  default:
-    print(ERROR,"Invalid mode");
-    exit(EXIT_FAILURE);
-    break;
   }
 }
+
+Match_info init_match(){
+  char * mcast_addr = new_mdiff_adress();
+  base_mcast_port_mutex.lock();
+  int mcast_port = base_mcast_port++;
+  base_mcast_port_mutex.unlock();
+  base_udp_port_mutex.lock();
+  int udp_port = base_udp_port++;
+  base_udp_port_mutex.unlock();
+  return Match_info(Header::success_header(), udp_port, mcast_port, mcast_addr);
+
+}
+
+
+char * new_mdiff_adress() {
+
+    char* base=strdup("ff12:0000:0000:0000:0000:0000:0000:0000");
+    if (base==NULL)
+    {
+        perror("Memory allocation failled");
+        pthread_exit((void*)EXIT_FAILURE);
+    }
+    
+    // Generate random hexadecimal characters for the existing address
+    for (int i = 5; i < 39; i += 4) {
+        for (int j = 0; j < 4; j++) {
+            int r = rand() % 16; // Generate random number between 0 and 15 (little bug, changed to 0-9 for the moment)
+            char hex_digit = (r < 10) ? (char)(r + '0') : (char)(r - 10 + 'a'); // Convert to hexadecimal digit
+            //printf("%c\n", hex_digit);
+            base[i + j] = hex_digit;
+        }
+        if (i != 35)
+            i++;
+    }
+
+    return base;
+}
+
+
 

@@ -91,7 +91,7 @@ Header Header::recv_header(const int sock_fd){
   }
   Header header = Header(buf);
 
-  print(INFO, "Recived header: " + header.to_string());
+  print(INFO, "Header recived: " + header.to_string());
   return header;
 }
 

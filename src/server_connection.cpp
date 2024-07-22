@@ -100,6 +100,25 @@ void lobby(const int mode){
   Match_info match = init_match();
   Header header(0,0,0);
 
+  int mdiff_server_sock;
+  mdiff_server_sock = socket(AF_INET6, SOCK_DGRAM, 0);
+        
+        
+  struct sockaddr_in6 gradr;
+  memset(&gradr, 0, sizeof(gradr));
+  gradr.sin6_family = AF_INET6;
+  inet_pton(AF_INET6, match.get_mcast_addr_str(), &gradr.sin6_addr);
+  gradr.sin6_port = htons(match.get_mcast_port() );
+
+
+  int ifindex = if_nametoindex ("enp1s0");
+  if(ifindex == 0)
+    perror("if_nametoindex");
+
+  gradr.sin6_scope_id = ifindex;
+  print(INFO,"mdiff created");
+
+
   Player player[LOBBY_SIZE];
   int player_count=0;
   while(player_count<LOBBY_SIZE){
@@ -114,6 +133,7 @@ void lobby(const int mode){
         header.set_id(player_count); 
         match.set_header(header);
         match.send_match_info(player[player_count].tcp_socket);
+
         player_count++;
         break;
       case 3:
@@ -128,6 +148,11 @@ void lobby(const int mode){
         break;
     }
   }
+  // multicast test
+  sleep(1);
+  Header test = Header(1,1,1);
+  sendto(mdiff_server_sock,&test,sizeof(uint16_t),0,(struct sockaddr*)&gradr, sizeof(gradr));
+  print(INFO,"mdiff sent");
 }
 
 Match_info init_match(){

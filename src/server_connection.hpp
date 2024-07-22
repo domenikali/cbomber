@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 #include <mutex>
 #include <stack>
+#include <net/if.h>
 #include <thread>   
 
 typedef struct{

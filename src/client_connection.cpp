@@ -24,7 +24,7 @@ sockaddr_in connect_to_server(const int port, const string adress, int * tcp_ser
 
 }
 
-struct sockaddr_in6 create_udp_client_sockaddr(char* ipv6,int port){
+struct sockaddr_in6 create_udp_client_sockaddr(const char* ipv6,int port){
     struct sockaddr_in6 udp_server_addr;
     memset(&udp_server_addr, 0, sizeof(udp_server_addr));
     udp_server_addr.sin6_family = AF_INET6; // IPv6

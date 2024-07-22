@@ -57,8 +57,8 @@ int main (int args, char ** argv){
     perror("Socket creation failed");
     exit(EXIT_FAILURE);
   }
-
-  struct sockaddr_in6 udp_server_addr = create_udp_client_sockaddr("::1", match.get_udp_port()); 
+  string ipv6 = "::1";
+  struct sockaddr_in6 udp_server_addr = create_udp_client_sockaddr(ipv6.c_str(), match.get_udp_port()); 
   print(INFO, "UDP socket created");
 
   // Create mcast socket
@@ -67,12 +67,16 @@ int main (int args, char ** argv){
   struct sockaddr_in6 mdiff_server_addr = create_mcast_sockaddr(mcast_client_sock, match.get_mcast_port());
   
   inscribe_to_mcast(mcast_client_sock, match.get_mcast_addr_str());
+  print(INFO, "Mcast socket created");
 
 
-  Header id_packet = Header::recv_header(tcp_server_socket);
+  Header test = Header::recv_header(mcast_client_sock);
+
   print(INFO, "match starting");
 
   close(tcp_server_socket);
+  close(udp_client_sock);
+  close(mcast_client_sock);
 
   return 0;   
 }

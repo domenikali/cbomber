@@ -1,22 +1,26 @@
 # c bomber
 this is a little project to learn c++ coming from c
 
+the main objective it to make a bomber-like game running on a linux machine that exchange data via different networks protocol
+
+
+
 ## protocol
 the game protocol is the following (still not complete)
 
-### 1
+  ### 1
 &emsp;client connect to server and send packet with a request to join the queue in a specifig game mode
 
-### 2
+  ### 2
 &emsp;server add player in the queue of the requested mode then respond with a packet to confirm request accepted or denied
 
-### 3
+  ### 3
 &emsp;once the queue is full the server send game info to client
 
-### 4 
+  ### 4 
 &emsp;client respond to confirm it has recived the information and it's still running
 
-### 5 
+  ### 5 
 &emsp;server multidiffuse grid information and the game can start
 
 (continue)

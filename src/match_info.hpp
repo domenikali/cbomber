@@ -24,7 +24,7 @@ class Match_info{
   public:
     Match_info(Header header, uint16_t udp_port, uint16_t mcast_port, std::string mcast_addr);
     Match_info(const char * serialized_match_info);
-
+    
     Header get_header(){ return header;};
     uint16_t get_udp_port(){ return ntohs(udp_port);};
     uint16_t get_mcast_port(){return ntohs(mcast_port);};

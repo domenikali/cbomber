@@ -37,10 +37,23 @@ int create_server_socket(const int port);
 */
 sockaddr_in accept_client(const int tcp_server_sock, int *sock_client);
 
+/**
+ *  @brief queue a client to the lobby
+ *  @param client_sock the client socket fd
+*/
 void queue_client(const int client_sock);
 
+/**
+ *  @brief lobby for a match
+ *  @param mode the mode of the match
+*/
 void lobby(const int mode);
 
+/**
+ *  @brief create a new match infos
+ *  @details create a new match info with a random mcast adress and ports for multicast and udp communication
+ *  @return the match
+*/
 Match_info init_match();
 
 /**

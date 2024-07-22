@@ -23,6 +23,11 @@ enum log_level {
  */
 void print(const log_level level, const std::string message);
 
+/**
+ *  @brief malloc with error handling
+ *  @param bytes the size of the memory to allocate
+ *  @return a pointer to the allocated memory
+ */
 void * my_malloc(const size_t bytes);
 
 

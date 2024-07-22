@@ -68,10 +68,22 @@ class Header{
     */
     static Header recv_header(const int sock_fd);
 
+    /**
+     * @brief create an error header
+     * @return the error header
+    */
     static Header error_header();
 
+    /**
+     * @brief create a success header
+     * @return the success header
+    */
     static Header success_header();
 
+    /**
+     * @brief create a string representation of the header
+     * @return return the string representation of the header
+    */
     string to_string();
   };
  

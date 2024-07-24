@@ -103,6 +103,6 @@ Header Header::success_header(){
   return Header(0,0,0);
 }
 
-string Header::to_string(){
+std::string Header::to_string(){
     return "Header:\n\tcode: " + std::to_string(get_code()) + " id: " + std::to_string(get_id()) + " team: " + std::to_string(get_team());
 }

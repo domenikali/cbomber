@@ -1,6 +1,6 @@
 #include "client_connection.hpp"
 
-sockaddr_in connect_to_server(const int port, const string adress, int * tcp_server_sock){
+sockaddr_in connect_to_server(const int port, const std::string adress, int * tcp_server_sock){
   *tcp_server_sock = socket(AF_INET, SOCK_STREAM, 0);
   if (*tcp_server_sock < 0) {
     print(ERROR, "Socket cannot be created!");

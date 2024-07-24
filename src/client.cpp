@@ -20,11 +20,11 @@
 int main (int args, char ** argv){
 
   int port = 8080;
-  string adress = "127.0.0.1";
+  std::string adress = "127.0.0.1";
 
   int game_mode = -1;
   while(game_mode==-1){
-    string mode;
+    std::string mode;
     std::cout << "Choose game mode: \n" ;
     std::cout << "\t1. Single player\n";
     std::cout << "\t2. Multiplayer" << std::endl;
@@ -57,7 +57,7 @@ int main (int args, char ** argv){
     perror("Socket creation failed");
     exit(EXIT_FAILURE);
   }
-  string ipv6 = "::1";
+  std::string ipv6 = "::1";
   struct sockaddr_in6 udp_server_addr = create_udp_client_sockaddr(ipv6.c_str(), match.get_udp_port()); 
   print(INFO, "UDP socket created");
 

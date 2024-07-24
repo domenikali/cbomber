@@ -6,8 +6,6 @@
 #include <cstring>
 #include <sys/socket.h>
 
-using std::string;
-
 
 /**
  *  @brief class to handle the header of the packets
@@ -84,7 +82,7 @@ class Header{
      * @brief create a string representation of the header
      * @return return the string representation of the header
     */
-    string to_string();
+    std::string to_string();
   };
  
 

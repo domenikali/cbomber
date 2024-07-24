@@ -33,9 +33,6 @@ int main (int args, char ** argv){
     t.detach();
 
   }
- 
-  
-  
 
   close(tcp_server_sock);
   

@@ -18,6 +18,7 @@ class Action{
     public:
     Action (Header header, uint16_t action);
     Action (const char * serialized_action);
+    Action (Header header);
 
     Header get_header(){ return header;};
     uint16_t get_action(){ return ntohs(action);};

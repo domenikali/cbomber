@@ -15,6 +15,7 @@ int main(){
     test_action_serialize();
     test_action_deserialize();
     test_send_recv_action();
+    test_action_to_uint8();
     std::cout<<GREEN<<"Tests finished"<<RESET<<std::endl;
     return 0;
 }

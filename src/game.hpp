@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include "domes_library.hpp"
+#include "header.hpp"
 
 /**
  * @brief class to handle the game configuration
@@ -14,19 +15,36 @@
  */
 class Game{
     private:
-        int gridHeight;
-        int gridWidth;
-        int **grid;
+        uint8_t gridHeight;
+        uint8_t gridWidth;
+        uint8_t **grid;
+
     public:
         Game();
+        Game(uint8_t gridHeight, uint8_t gridWidth);
         int getGridHeight();
         int getGridWidth();
+        void setGridHeight(uint8_t gridHeight){
+            this->gridHeight = gridHeight;
+        };
+        void setGridWidth(uint8_t gridWidth){
+            this->gridWidth = gridWidth;
+        };
         /**
          * @brief reload the configuration from the file config
          */
         void reloadConfig();
         void fillGrid();
+        /**
+         * @brief send the grid via TCP packet to client
+         * @param socket the socket to send the grid
+         * @return 0 if the grid was sent successfully, -1 otherwise
+         */
+        int send_tcp_grid(const int socket);
+        char * serialize_grid();
+        static Game deserialize_grid(char * serialize_grid);
         void printGrid();
+        std::string to_string();
 };
 
 

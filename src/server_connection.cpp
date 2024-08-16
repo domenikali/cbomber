@@ -119,22 +119,22 @@ void lobby(const int mode){
   print(INFO,"mdiff created");
 
 
-  Player player[LOBBY_SIZE];
-  int player_count=0;
-  while(player_count<LOBBY_SIZE){
+  Player players[LOBBY_SIZE];
+  int players_count=0;
+  while(players_count<LOBBY_SIZE){
     switch (mode){
       case 2:
         solo_queue_mutex.lock();
-        player[player_count].tcp_socket=solo_queue.top();
-        player[player_count].id = player_count;
+        players[players_count].tcp_socket=solo_queue.top();
+        players[players_count].id = players_count;
         solo_queue.pop();
         solo_queue_mutex.unlock();
 
-        header.set_id(player_count); 
+        header.set_id(players_count); 
         match.set_header(header);
-        match.send_match_info(player[player_count].tcp_socket);
+        match.send_match_info(players[players_count].tcp_socket);
 
-        player_count++;
+        players_count++;
         break;
       case 3:
         team_queue_mutex.lock();
@@ -150,9 +150,22 @@ void lobby(const int mode){
   }
   // multicast test
   sleep(1);
-  Header test = Header(1,1,1);
-  sendto(mdiff_server_sock,&test,sizeof(uint16_t),0,(struct sockaddr*)&gradr, sizeof(gradr));
-  print(INFO,"mdiff sent");
+  Game grid = Game();
+  //print(INFO,"grid created "+grid.to_string());
+  grid.printGrid();
+  uint8_t grid_dimensions[2] = {grid.getGridHeight(), grid.getGridWidth()};
+    
+  
+
+  for(int i=0;i<4;i++){
+    grid.send_tcp_grid(players[i].tcp_socket);
+  } 
+  print(INFO,"grid info sent");
+
+  
+  //send game grid to tcp sockets
+  
+  
 }
 
 Match_info init_match(){

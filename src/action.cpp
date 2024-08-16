@@ -10,6 +10,11 @@ Action::Action(Header header, uint16_t action){
     this->action = htons(action);
 }
 
+Action::Action(Header header){
+    this->header = header;
+    this->action = 0;
+}
+
 /**
  * @brief constructor
  * @param serialized_action the serialized action

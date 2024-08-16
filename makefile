@@ -9,6 +9,7 @@ COBJS = ./src/client.o
 TESTS = ./tests/tests.o ./tests/game_tests.o ./tests/tests_librarys.o ./tests/action_tests.o 
 
 all: $(EXEC)
+	./server
 
 
 server:  $(CLASSES) $(SOBJS)
@@ -22,9 +23,8 @@ client: $(CLASSES) $(COBJS)
 
 test: $(CLASSES) $(TESTS)
 	$(CC) $(CFLAGS) $^ -o $@
-
-run_test: test
 	./test
+
 
 clean:
 	rm -f $(EXEC) $(SOBJS) $(COBJS) $(TESTS) $(CLASSES)

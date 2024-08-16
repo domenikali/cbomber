@@ -98,6 +98,28 @@ code is:
 </pre>
 
 
+### Full grid packet
+
+32 bit packet header
+  - 16 bit header
+  - 8 bit Grid height
+  - 8 bit Grid width
+
+H X W uint8_t tiles array
+
+
+<pre>
+ 0                   1
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|            code         |id |t|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|    Grid H    |     Grid W     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     Tile     |      ...
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre>
+
 
 (continue)
 

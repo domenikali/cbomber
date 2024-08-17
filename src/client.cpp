@@ -88,12 +88,6 @@ int main (int args, char ** argv){
   char * grid_buff = new char[grid_size+4];
   memset(grid_buff, 0, grid_size+4);
   memcpy(grid_buff, buff, 4);
-
-  if(grid_buff[2]!=height || grid_buff[3]!=width){
-    print(ERROR, "grid size mismatch");
-    return -1;
-  }
-
   
   ssize_t recved=0;
   while(recved<grid_size){

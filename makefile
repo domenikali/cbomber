@@ -9,7 +9,7 @@ COBJS = ./src/client.o
 TESTS = ./tests/tests.o ./tests/game_tests.o ./tests/tests_librarys.o ./tests/action_tests.o 
 
 all: $(EXEC)
-	./server
+	
 
 
 server:  $(CLASSES) $(SOBJS)

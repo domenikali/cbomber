@@ -142,3 +142,28 @@ std::string Game::to_string(){
     return str;
 }
 
+Game Game::recv_grid(const int socket){
+    char * buff = new char[4];
+    recv(socket,buff,4,0);
+    
+    Header start_game = Header(buff);
+    print(INFO, start_game.to_string());
+    uint8_t height = buff[2];
+    uint8_t width = buff[3];
+    ssize_t grid_size = height*width;
+    print(INFO, "grid size: "+std::to_string(height)+"x"+std::to_string(width));
+
+    char * grid_buff = new char[grid_size+4];
+    memset(grid_buff, 0, grid_size+4);
+    memcpy(grid_buff, buff, 4);
+    
+    ssize_t recved=0;
+    while(recved<grid_size){
+        recved += recv(socket, grid_buff+recved+4, grid_size-recved, 0);
+    }
+    print(INFO, "grid received");
+    Game grid = Game::deserialize_grid(grid_buff);
+    print(INFO, "grid deserialized");
+    return grid;
+}
+

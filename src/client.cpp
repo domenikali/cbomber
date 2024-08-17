@@ -4,6 +4,7 @@
 #include "utils.hpp"
 #include "game.hpp"
 #include "action.hpp"
+#include "config.hpp"
 
 #include <iostream>
 #include <ctime>
@@ -21,8 +22,7 @@
 
 int main (int args, char ** argv){
 
-  int port = 8080;
-  std::string adress = "127.0.0.1";
+  Config config = Config();
 
   int game_mode = -1;
   if(args>1){
@@ -47,7 +47,7 @@ int main (int args, char ** argv){
   Header require_match(game_mode, 0, 0);
 
   int tcp_server_socket;
-  connect_to_server(port, adress , &tcp_server_socket);
+  connect_to_server(config.getServerPort(), config.getServerIP4Adress() , &tcp_server_socket);
 
   require_match.send_header(tcp_server_socket);
 
@@ -63,8 +63,8 @@ int main (int args, char ** argv){
     perror("Socket creation failed");
     exit(EXIT_FAILURE);
   }
-  std::string ipv6 = "::1";
-  struct sockaddr_in6 udp_server_addr = create_udp_client_sockaddr(ipv6.c_str(), match.get_udp_port()); 
+  
+  struct sockaddr_in6 udp_server_addr = create_udp_client_sockaddr(config.getServerIP6Adress().c_str(), match.get_udp_port()); 
   print(INFO, "UDP socket created");
 
   // Create mcast socket
@@ -75,30 +75,9 @@ int main (int args, char ** argv){
   inscribe_to_mcast(mcast_client_sock, match.get_mcast_addr_str());
   print(INFO, "Mcast socket created");
 
-  char * buff = new char[4];
-  recv(tcp_server_socket,buff,4,0);
+  Game game = Game::recv_grid(tcp_server_socket);
+  game.printGrid();
   
-  Header start_game = Header(buff);
-  print(INFO, start_game.to_string());
-  uint8_t height = buff[2];
-  uint8_t width = buff[3];
-  ssize_t grid_size = height*width;
-  print(INFO, "grid size: "+std::to_string(height)+"x"+std::to_string(width));
-
-  char * grid_buff = new char[grid_size+4];
-  memset(grid_buff, 0, grid_size+4);
-  memcpy(grid_buff, buff, 4);
-  
-  ssize_t recved=0;
-  while(recved<grid_size){
-    recved += recv(tcp_server_socket, grid_buff+recved+4, grid_size-recved, 0);
-  }
-  print(INFO, "grid received");
-  Game grid = Game::deserialize_grid(grid_buff);
-  print(INFO, "grid deserialized");
-  print(INFO, grid.to_string());
-  print(INFO, "match starting");
-
   close(tcp_server_socket);
   close(udp_client_sock);
   close(mcast_client_sock);

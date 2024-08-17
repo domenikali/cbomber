@@ -3,10 +3,10 @@ CFLAGS = -Wall -Wextra -std=c++20
 
 EXEC = server client
 
-CLASSES = ./src/server_connection.o ./src/client_connection.o ./src/utils.o ./src/header.o ./src/match_info.o ./src/domes_library.o ./src/game.o ./src/action.o
+CLASSES = ./src/server_connection.o ./src/client_connection.o ./src/utils.o ./src/header.o ./src/match_info.o ./src/domes_library.o ./src/game.o ./src/action.o ./src/config.o
 SOBJS = ./src/server.o 
 COBJS = ./src/client.o 
-TESTS = ./tests/tests.o ./tests/game_tests.o ./tests/tests_librarys.o ./tests/action_tests.o 
+TESTS = ./tests/tests.o ./tests/game_tests.o ./tests/tests_librarys.o ./tests/action_tests.o ./tests/config_tests.o
 
 all: $(EXEC)
 	

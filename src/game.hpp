@@ -43,6 +43,7 @@ class Game{
         int send_tcp_grid(const int socket);
         char * serialize_grid();
         static Game deserialize_grid(char * serialize_grid);
+        static Game recv_grid(const int socket);
         void printGrid();
         std::string to_string();
 };

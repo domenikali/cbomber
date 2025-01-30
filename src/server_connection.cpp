@@ -1,7 +1,7 @@
 #include "server_connection.hpp"
 
-std::stack<int> solo_queue;
-std::stack<int> team_queue;
+std::queue<int> solo_queue;
+std::queue<int> team_queue;
 
 std::mutex solo_queue_mutex;
 std::mutex team_queue_mutex;
@@ -125,7 +125,7 @@ void lobby(const int mode){
     switch (mode){
       case 2:
         solo_queue_mutex.lock();
-        players[players_count].tcp_socket=solo_queue.top();
+        players[players_count].tcp_socket=solo_queue.front();
         players[players_count].id = players_count;
         solo_queue.pop();
         solo_queue_mutex.unlock();
@@ -138,8 +138,15 @@ void lobby(const int mode){
         break;
       case 3:
         team_queue_mutex.lock();
-        
+        players[players_count].tcp_socket=team_queue.front();
+        players[players_count].id = players_count;
+        team_queue.pop();
         team_queue_mutex.unlock();
+
+        header.set_id(players_count); 
+        match.set_header(header);
+        match.send_match_info(players[players_count].tcp_socket);
+        players_count++;
         break;
       
       default:

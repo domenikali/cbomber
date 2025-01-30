@@ -4,6 +4,7 @@
 #include "domes_library.hpp"
 #include <iostream>
 #include <cstring>
+#include <cstdint>
 #include <sys/socket.h>
 
 

@@ -7,6 +7,7 @@
 #include "domes_library.hpp"
 #include "game.hpp"
 #include "action.hpp"
+#include <queue>
 #include <iostream>
 
 
